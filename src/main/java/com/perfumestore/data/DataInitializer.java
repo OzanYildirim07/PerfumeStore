@@ -144,7 +144,7 @@ public class DataInitializer implements CommandLineRunner {
         
         perfumes.add(createPerfume("Tom Ford Lost Cherry", "Tom Ford",
                 "Lost Cherry, bir zamanlar yasak olan olgulara tam gövdeli bir yolculuk; dışta oyuncu, şekerleme benzeri bir parıltı ile içte lezzetli, etli bir dokunun baştan çıkarıcı zıtlığını ortaya çıkaran kontrast bir koku.",
-                new BigDecimal("12800.00"), "https://lh4.googleusercontent.com/proxy/kQQQTdPZe7gb77jlT3KNZDqVYXueilgxGXtrBjg8Xis3l6ZRuWUWZe4CNhPtH3QMYARQDLkoatN6hfcDhGFmGLivPcX92oAN6RvMw6-4djN7qV7l7DUl3wzK0DeLdUxOzJ0yy9wEpyN4Lh-ChycfLjow_8Mqim1CjLC3qbCrRjbjNRZO_6P5Fe1fcVSZJg", Perfume.Gender.KADIN, 50, categories.get(2),
+                new BigDecimal("12800.00"), "https://lh4.googleusercontent.com/proxy/kQQQTdPZe7gb77jlT3KNZDqVYXueilgxGXtrBjg8Xis3l6ZRuWUWZe4CNhPtH3QMYARQDLkoatN6hfcDhGFmGLivPcX92oAN6RvMw6-4djN7qV7l7DUl3wzK0DeLdUxOzJ0yy9wEpyN4Lh-ChycfLjow_8Mqim1CjLC3qbCrRjbjNRZO_6P5Fe1fcVSZJg", Perfume.Gender.KADIN, 100, categories.get(2),
                 Arrays.asList(findContent(contents, "Tarçın"), findContent(contents, "Vanilya"), findContent(contents, "Sandal Ağacı"))));
         
         perfumes.add(createPerfume("Gucci Bloom", "Gucci",

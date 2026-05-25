@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginRequest {
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @NotBlank(message = "Kullanıcı adı zorunlu.")
+    @Size(min = 3, max = 50, message = "Kullanıcı Adı 3 ve 50 karakter aralığında olmalıdır!")
     private String username;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
+    @NotBlank(message = "Şifre zorunlu.")
+    @Size(min = 6, max = 100, message = "Şifre 6 ve 100 karakter aralığında olmalıdır!")
     private String password;
 }

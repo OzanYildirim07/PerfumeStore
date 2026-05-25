@@ -174,8 +174,8 @@ function formatPrice(price) {
     return price.toLocaleString('tr-TR');
 }
 
-// 🌟 QuickView Parametrelerine id ekledik ve eşleşmeyi düzelttik kanka
-function openQuickView(id, name, price, image, description) {
+// 🌟 QuickView Parametrelerine id ve volumeMl ekledik, başlığı 'İsim - 100ml' yaptık kanka
+function openQuickView(id, name, price, image, description, volumeMl) {
     const modalImg = document.getElementById('modalImg');
     const modalTitle = document.getElementById('modalTitle');
     const modalPrice = document.getElementById('modalPrice');
@@ -184,14 +184,14 @@ function openQuickView(id, name, price, image, description) {
     
     if (modalImg) modalImg.src = image;
     if (modalImg) modalImg.alt = name;
-    if (modalTitle) modalTitle.textContent = name;
+    if (modalTitle) modalTitle.textContent = volumeMl ? `${name} - ${volumeMl}ml` : name;
     if (modalPrice) modalPrice.textContent = price;
     if (modalDesc) modalDesc.textContent = description || '';
     
     const numericPrice = parseFloat(price.replace(/[^0-9.]/g, ''));
     if (modalAddBtn) {
         modalAddBtn.onclick = () => {
-            addToCart(id, name, numericPrice, image);
+            addToCart(id, volumeMl ? `${name} (${volumeMl}ml)` : name, numericPrice, image);
             closeQuickView();
         };
     }
@@ -507,17 +507,17 @@ function renderBestsellers(perfumes) {
         return `
         <div class="product-card reveal-up" style="transition-delay:${delay}s">
             <div class="product-image">
-                <img src="${p.imageUrl}" alt="${p.name}" class="product-img" loading="lazy">
+            <img src="${p.imageUrl}" alt="${p.name}" class="product-img" loading="lazy">
                 <div class="product-overlay">
-                    <button class="btn-quickview" onclick="openQuickView(${p.id}, '${safeName}', '${formatPrice(p.price)} ₺', '${p.imageUrl}', '${safeDesc}')">İncele</button>
-                </div>
+            <button class="btn-quickview" onclick="openQuickView(${p.id}, '${safeName}', '${formatPrice(p.price)} ₺', '${p.imageUrl}', '${safeDesc}', ${p.volumeMl})">İncele</button>
             </div>
-            <div class="product-info">
-                <span class="product-category">${getGenderLabel(p.gender)} - ${p.brand}</span>
-                <h3 class="product-name">${p.name}</h3>
+        </div>
+        <div class="product-info">
+        <span class="product-category">${getGenderLabel(p.gender)} - ${p.brand} - ${p.volumeMl}ML</span>
+        <h3 class="product-name">${p.name}</h3>
                 <p class="product-notes">${notes}</p>
                 <p class="product-price">${formatPrice(p.price)} ₺</p>
-                <button class="btn btn-small" onclick="addToCart(${p.id}, '${safeName}', ${p.price}, '${p.imageUrl}')">Sepete Ekle</button>
+                <button class="btn btn-small" onclick="addToCart(${p.id}, '${safeName} (${p.volumeMl}ml)', ${p.price}, '${p.imageUrl}')">Sepete Ekle</button>
             </div>
         </div>`;
     }).join('');
@@ -539,18 +539,18 @@ function renderPerfumes(perfumes) {
         
         return `
         <div class="product-card reveal-up" style="transition-delay:${delay}s">
-            <div class="product-image">
-                <img src="${p.imageUrl}" alt="${p.name}" class="product-img" loading="lazy">
-                <div class="product-overlay">
-                    <button class="btn-quickview" onclick="openQuickView(${p.id}, '${safeName}', '${formatPrice(p.price)} ₺', '${p.imageUrl}', '${safeDesc}')">İncele</button>
-                </div>
-            </div>
-            <div class="product-info">
-                <span class="product-category">${getGenderLabel(p.gender)} - ${p.brand}</span>
-                <h3 class="product-name">${p.name}</h3>
+    <div class="product-image">
+        <img src="${p.imageUrl}" alt="${p.name}" class="product-img" loading="lazy">
+        <div class="product-overlay">
+            <button class="btn-quickview" onclick="openQuickView(${p.id}, '${safeName}', '${formatPrice(p.price)} ₺', '${p.imageUrl}', '${safeDesc}', ${p.volumeMl})">İncele</button>
+        </div>
+    </div>
+    <div class="product-info">
+        <span class="product-category">${getGenderLabel(p.gender)} - ${p.brand} - ${p.volumeMl}ML</span>
+        <h3 class="product-name">${p.name}</h3>
                 <p class="product-notes">${notes}</p>
                 <p class="product-price">${formatPrice(p.price)} ₺</p>
-                <button class="btn btn-small" onclick="addToCart(${p.id}, '${safeName}', ${p.price}, '${p.imageUrl}')">Sepete Ekle</button>
+                <button class="btn btn-small" onclick="addToCart(${p.id}, '${safeName} (${p.volumeMl}ml)', ${p.price}, '${p.imageUrl}')">Sepete Ekle</button>
             </div>
         </div>`;
     }).join('');
@@ -649,10 +649,10 @@ async function submitOrderWithPayment() {
     // 1. Backend'in tam olarak beklediği kurşun geçirmez şablon kanka!
     const payload = {
        paymentMethod: selectedPaymentMethod, // 🔥 Ana gövdede beklenen metot (CREDIT_CARD vs.)
-        items: cart.map(item => ({
+       items: cart.map(item => ({
             perfumeId: Number(item.id), // 🔥 Sepetteki parfümün ID'si
             quantity: item.quantity
-        }))
+       }))
     };
 
     try {

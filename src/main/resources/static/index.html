@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lüx Esinti | Ultra Lüks Parfüm Koleksiyonu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="http://localhost:8080/" class="logo-text">LÜX ESİNTİ</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="http://localhost:8080/" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="#collection" class="nav-link">Koleksiyon</a></li>
+                <li><a href="#story" class="nav-link">Hikayemiz</a></li>
+                <li><a href="#bestsellers" class="nav-link">En Çok Satanlar</a></li>
+                <li><a href="#contact" class="nav-link">İletişim</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="icon-btn search-btn" aria-label="Ara">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+                <button class="icon-btn cart-btn" aria-label="Sepet" onclick="toggleCart()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 6h15l-1.5 9h-12z"></path>
+                        <circle cx="9" cy="20" r="1"></circle>
+                        <circle cx="18" cy="20" r="1"></circle>
+                        <path d="M6 6L5 3H2"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </button>
+
+                <div class="user-menu-wrapper" style="position: relative;">
+                    <button class="icon-btn user-btn" aria-label="Kullanıcı" onclick="event.stopPropagation(); handleUserClick();" style="display: flex; align-items: center; gap: 6px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="userBtnLabel" style="font-size: 0.8rem; font-weight: 500; font-family: 'Montserrat', sans-serif;"></span>
+                    </button>
+
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <div class="profile-dropdown-info">
+                            <h4 id="dropdownUsername">Kullanıcı</h4>
+                            <p id="dropdownEmail">E-posta Adresi</p>
+                        </div>
+                        <div class="profile-dropdown-divider"></div>
+                        <button class="profile-logout-btn" onclick="logoutUser()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; display: inline-block; vertical-align: middle;">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>Oturumu Kapat
+                        </button>
+                    </div>
+                </div>
+
+                <button class="menu-toggle" aria-label="Menü" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1920&q=80" alt="Lüks Parfüm" class="hero-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <p class="hero-subtitle reveal-up">ÖZEL FORMÜLLER</p>
+            <h1 class="hero-title reveal-up">LÜX ESİNTİ</h1>
+            <p class="hero-description reveal-up">Her damlasında bir hikaye, her notasında bir tutku. Ultra lüks parfüm koleksiyonumuzla tanışın.</p>
+            <a href="#collection" class="btn btn-primary reveal-up">Koleksiyonu Keşfet</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Aşağı Kaydır</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="collection" id="collection">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-tag">KOLEKSİYON</span>
+                <h2 class="section-title">Parfüm Koleksiyonumuz</h2>
+                <p class="section-desc">Her biri özenle seçilmiş, eşsiz formüllerle hazırlanmış lüks parfümler</p>
+            </div>
+            <div class="collection-grid" id="collectionGrid">
+                <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray);">Yükleniyor...</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="story" id="story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-content reveal-left">
+                    <span class="section-tag">MARKA HİKAYEMİZ</span>
+                    <h2 class="section-title">Kokunun <em>Zanaatı</em></h2>
+                    <p class="story-text">
+                        Lüx Esinti, 2010 yılında Grasse'ta, parfüm sanatının kalbinde doğdu. Kurucumuz Ozan Yıldırım,
+                        üç nesildir süren aile geleneğini modern bir vizyonla birleştirerek, eşsiz ve unutulmaz kokular yaratma tutkusuyla yola çıktı.
+                    </p>
+                    <p class="story-text">
+                        Her bir parfümümüz, dünyanın dört bir yanından özenle seçilmiş nadir malzemelerle,
+                        geleneksel yöntemler pediatric ve modern teknolojinin mükemmel uyumuyla üretilir.
+                        Sadece bir koku değil, bir yaşam tarzı sunuyoruz.
+                    </p>
+                    <div class="story-stats">
+                        <div class="stat">
+                            <span class="stat-number">14</span>
+                            <span class="stat-label">Yıllık Deneyim</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">47</span>
+                            <span class="stat-label">Eşsiz Formül</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Ödül</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-image reveal-right">
+                    <img src="https://images.unsplash.com/photo-1621814374283-57cc5d0d39c2?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Parfüm Zanaatı" class="story-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bestsellers" id="bestsellers">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-tag">EN ÇOK SATANLAR</span>
+                <h2 class="section-title">Gözde Parfümlerimiz</h2>
+                <p class="section-desc">Müşterilerimizin en sevdiği, en çok tercih edilen parfümler</p>
+            </div>
+            <div class="collection-grid" id="bestsellerGrid">
+                <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray);">Yükleniyor...</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="http://localhost:8080/" class="footer-logo">LÜX ESİNTİ</a>
+                    <p class="footer-desc">2010'dan beri dünyanın en seçkin malzemeleriyle, eşsiz parfüm deneyimleri sunuyoruz.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Koleksiyon</h4>
+                    <ul>
+                        <li><a href="#" onclick="event.preventDefault();loadPerfumes('KADIN');document.getElementById('collection').scrollIntoView({behavior:'smooth'});">Kadın Parfümleri</a></li>
+                        <li><a href="#" onclick="event.preventDefault();loadPerfumes('ERKEK');document.getElementById('collection').scrollIntoView({behavior:'smooth'});">Erkek Parfümleri</a></li>
+                        <li><a href="#" onclick="event.preventDefault();loadPerfumes('UNISEX');document.getElementById('collection').scrollIntoView({behavior:'smooth'});">Unisex Parfümler</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lüx Esinti. Tüm hakları saklıdır.</p>
+                <div class="payment-methods">
+                    <span>Visa</span>
+                    <span>Mastercard</span>
+                    <span>Troy</span>
+                    <span>PayPal</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Sepetim</h3>
+            <button class="cart-close" onclick="toggleCart()" aria-label="Kapat">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Toplam</span>
+                <span class="total-price" id="cartTotal">0 ₺</span>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="openPaymentModal()">Ödemeye Geç</button>
+            <button class="btn btn-outline btn-full" onclick="toggleCart()">Alışverişe Devam Et</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeQuickView()" aria-label="Kapat">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="" alt="" id="modalImg">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modalTitle"></h2>
+                    <p class="modal-price" id="modalPrice"></p>
+                    <p class="modal-desc" id="modalDesc"></p>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" id="modalAddBtn">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <span class="toast-message" id="toastMessage"></span>
+    </div>
+
+    <div id="authModal" class="auth-overlay">
+        <div class="auth-modal-content">
+            <div class="auth-modal-tabs">
+                <button class="auth-tab active" data-mode="login">Giriş Yap</button>
+                <button class="auth-tab" data-mode="register">Kayıt Ol</button>
+            </div>
+            
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Kullanıcı Adı veya E-posta</label>
+                    <input type="text" id="loginEmail" required placeholder="ornek12 veya ornek@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn auth-submit-btn">Giriş Yap</button>
+            </form>
+
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="regName" required placeholder="ornek12">
+                </div>
+                <div class="form-group">
+                    <label>E-posta Adresi</label>
+                    <input type="email" id="regEmail" required placeholder="ornek@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="regPassword" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn auth-submit-btn">Kayıt Ol</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 450px; padding: 30px;">
+            <button class="modal-close" onclick="closePaymentModal()" aria-label="Kapat">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--black); margin-bottom: 5px;">Ödeme Yöntemi Secin</h3>
+                <p style="font-family: var(--font-body); font-size: 0.85rem; color: var(--gray);" id="paymentModalTotal">Toplam Tutar: 0 ₺</p>
+            </div>
+            
+            <div class="payment-methods-grid" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
+                <button class="payment-method-btn active" data-method="CREDIT_CARD">
+                    <span>Kredi Kartı (Credit Card)</span>
+                </button>
+                <button class="payment-method-btn" data-method="DEBIT_CARD">
+                    <span>Banka Kartı (Debit Card)</span>
+                </button>
+                <button class="payment-method-btn" data-method="PAYPAL">
+                    <span>PayPal</span>
+                </button>
+                <button class="payment-method-btn" data-method="BANK_TRANSFER">
+                    <span>EFT / Havale (Bank Transfer)</span>
+                </button>
+            </div>
+
+            <button onclick="submitOrderWithPayment()" class="btn btn-primary btn-full" style="letter-spacing: 1px; font-weight: 600;">SİPARİŞİ TAMAMLA</button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

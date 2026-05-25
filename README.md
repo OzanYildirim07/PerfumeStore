@@ -67,7 +67,7 @@ The persistence layer automatically generates, validates, and updates relational
 | Table Name | Description | Key Relationships |
 | :--- | :--- | :--- |
 | users | Customer credentials, profile fields, encrypted passwords, and RBAC authority levels. | One-to-Many with orders |
-| perfumes | Core catalog items including brand attributes, descriptive metadata, dimensions, and prices. | Many-to-One with categories, Many-to-Many with contents |
+| perfumes | Core catalog items including brand attributes, descriptive metadata, dimensions, sales counters, and prices. | Many-to-One with categories, Many-to-Many with contents |
 | categories | Dynamic separation of catalog entries. | One-to-Many with perfumes |
 | contents | Fragrance composition ingredients, top/heart/base note categorizations. | Many-to-Many with perfumes |
 | orders | High-level receipts logging transactions timestamps, global totals, and order fulfillment states. | Many-to-One with users, One-to-Many with order_items |
@@ -80,7 +80,7 @@ The persistence layer automatically generates, validates, and updates relational
 
 * Stateless JWT Authorization: Client authentication state is managed using securely generated Bearer tokens passed down via custom HTTP authorization request headers (Authorization: Bearer token).
 * BCrypt Password Hashing: Credentials undergo high-entropy salting and cryptography structures through Spring Security configuration beans before persisting into PostgreSQL.
-* Role-Based Access Control (RBAC): USER role is authorized for safe read operations (GET endpoints), while the `ADMIN` role retains complete administrative write capabilities (POST, PUT, DELETE operations).
+* Role-Based Access Control (RBAC): USER role is authorized for safe read operations (GET endpoints), while the ADMIN role retains complete administrative write capabilities (POST, PUT, DELETE operations).
 * Data Safety Mechanisms: Built-in validation schema layers (jakarta.validation), automated parameter binding guarding against traditional SQL Injection vectors, and CORS filtration setups.
 
 ---
@@ -97,12 +97,13 @@ The persistence layer automatically generates, validates, and updates relational
 * GET /api/perfumes/search?query={query} - Dynamic search engine scanning brands, descriptions, and name fields.
 * GET /api/perfumes/gender/{gender} - Filters out targeting products (MALE, FEMALE, UNISEX).
 * GET /api/perfumes/filter?gender={gender}&contentId={contentId} - Multi-criteria specification query extracting products matching both targeted gender and explicit fragrance notes/contents concurrently.
+* GET /api/perfumes/best-3 - Custom query sequence returning the top 3 best-selling products based on transaction history and popularity metrics to feed the frontend 'Best Sellers' showcase wrapper.
 
 ### 📦 Administrative Operations (ADMIN Authority Required)
 * POST /api/perfumes | PUT /api/perfumes/{id} | DELETE /api/perfumes/{id} - Full CRUD operations over catalog items.
 * GET /api/users - Extracts a full registry of user files across the platform database.
 * GET /api/users/{id} - Get user by ID.
-* POST /api/categories | POST /api/contents Mom - Updates baseline filtering taxonomies.
+* POST /api/categories | POST /api/contents - Updates baseline filtering taxonomies.
 
 ### 🛒 Checkout Workflow
 * GET /api/orders - Retrieves historical order records.
@@ -114,8 +115,8 @@ The persistence layer automatically generates, validates, and updates relational
 ## 👥 Default Credentials
 
 * Default Admin Account:
-   * Username: admin
-   * Password: admin123
+  * Username: admin
+  * Password: admin123
 
 ---
 

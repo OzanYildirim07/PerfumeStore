@@ -1,137 +1,129 @@
-# LuxPerfume
+# 🌟 LuxPerfume E-Commerce System
 
-LuxPerfume is a modern luxury perfume store backend and frontend system built with Spring Boot. It provides a complete e-commerce platform for perfume sales with JWT authentication, role-based access control, and a responsive web interface.
+LuxPerfume is a premium full-stack luxury e-commerce platform featuring a secure, scalable Spring Boot REST API backend and a modern, responsive, vanilla HTML5/CSS3/JavaScript frontend interface. The system delivers a complete shopping experience with real-time database persistence, secure JWT authentication, dynamic cart management, and seamless order dispatch flows.
 
-## Technologies Used
+---
 
-### Backend
-- Java 17
-- Spring Boot 3.3.0
-- Spring Security with JWT
-- Spring Data JPA
-- PostgreSQL
-- Maven
-- Lombok
-- ModelMapper
-- Swagger/OpenAPI
+## 🛠️ Tech Stack & Architecture
 
-### Frontend
-- HTML5, CSS3, JavaScript
-- Responsive Design
-- REST API Integration
+### 🖥️ Backend Architecture
+* Core Language & Framework: Java 17 & Spring Boot 3.3.0
+* Security & Auth: Spring Security Core with Stateless JWT (JSON Web Tokens)
+* Data Layer (ORM): Spring Data JPA (Hibernate ORM 6.5.2)
+* Database Engine: PostgreSQL 42.7.3
+* API Documentation: Springdoc OpenAPI v2.5.0 (Swagger UI)
+* Tooling & Helpers: Maven, Lombok, ModelMapper, Jakarta Validation API
 
-## Prerequisites
+### 🎨 Frontend Architecture
+* Interface: Vanilla HTML5, Semantic CSS3 (Clean layout, custom modal systems, toast notification layouts)
+* State & Logic: Native asynchronous JavaScript (Fetch API, dynamic DOM manipulation, LocalStorage-backed cart state management)
+* Design Philosophy: 100% Responsive Design supporting desktop, tablet, and mobile displays without external UI frameworks.
 
-- Java 17 or higher
-- Docker Desktop
-- Maven (or use included wrapper)
+---
 
-## Setup Instructions
+## 📋 Prerequisites
 
-### 1. Start PostgreSQL with Docker
+Before running the application locally, ensure you have the following installed:
+* Java Development Kit (JDK): Version 17 (e.g., Eclipse Adoptium OpenJDK 17)
+* Database Server: PostgreSQL instance running locally (or via Docker Desktop)
+* Build Tool: Apache Maven (built-in wrapper mvnw is included in the root directory)
 
-```bash
+---
+
+## 🚀 Setup & Installation Instructions
+
+Ensure you have a PostgreSQL database named luxperfume running. Update the database credentials inside the backend's source properties configuration file if your local credentials differ:
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/luxperfume
+spring.datasource.username=postgres
+spring.datasource.password=your_secure_password
+
+### Docker alternative for PostgreSQL:
 docker compose up -d
-```
 
-### 2. Build the Project
+### Build and Package instructions:
+To package the application, navigate to the root directory and run the Maven wrapper command matching your operating system:
 
-```bash
+# On Linux/macOS:
 ./mvnw clean package -DskipTests
-```
 
-On Windows:
-```cmd
+# On Windows (CMD/PowerShell):
 mvnw.cmd clean package -DskipTests
-```
 
-### 3. Run the Application
-
-```bash
+### Running the application:
 java -jar target/LuxPerfume-1.0.0.jar
-```
 
-### 4. Access the Application
+### Application Access Points:
+* Web User Interface: http://localhost:8080
+* Interactive Swagger Documentation: http://localhost:8080/swagger-ui/index.html
+* Raw JSON API Metadata: http://localhost:8080/v3/api-docs
 
-- Web UI: http://localhost:8080
-- Swagger UI: http://localhost:8080/swagger-ui.html
-- API Docs: http://localhost:8080/v3/api-docs
+---
 
-## API Endpoints
+## 🗄️ Relational Database Schema Model
 
-### Authentication
-- POST /api/auth/register - Register new user
-- POST /api/auth/login - Login and get JWT token
+The persistence layer automatically generates, validates, and updates relational entities mapped out into a highly functional relational web of tables:
 
-### Perfumes
-- GET /api/perfumes - List all perfumes
-- GET /api/perfumes/{id} - Get perfume by ID
-- GET /api/perfumes/search?query={query} - Search perfumes
-- GET /api/perfumes/gender/{gender} - Filter by gender
-- POST /api/perfumes - Create perfume (ADMIN only)
-- PUT /api/perfumes/{id} - Update perfume (ADMIN only)
-- DELETE /api/perfumes/{id} - Delete perfume (ADMIN only)
+| Table Name | Description | Key Relationships |
+| :--- | :--- | :--- |
+| users | Customer credentials, profile fields, encrypted passwords, and RBAC authority levels. | One-to-Many with orders |
+| perfumes | Core catalog items including brand attributes, descriptive metadata, dimensions, and prices. | Many-to-One with categories, Many-to-Many with contents |
+| categories | Dynamic separation of catalog entries. | One-to-Many with perfumes |
+| contents | Fragrance composition ingredients, top/heart/base note categorizations. | Many-to-Many with perfumes |
+| orders | High-level receipts logging transactions timestamps, global totals, and order fulfillment states. | Many-to-One with users, One-to-Many with order_items |
+| order_items | Intermediate operational tables tracking exact prices, ordered quantities, and subtotal multipliers. | Many-to-One with orders, Many-to-One with perfumes |
+| payments | Secure payment auditing logs mapping out transactional keys, methods (e.g., Credit Card), and approval metrics. | One-to-One with orders |
 
-### Users
-- GET /api/users - List all users (ADMIN only)
-- GET /api/users/{id} - Get user by ID
+---
 
-### Orders
-- GET /api/orders - List orders
-- POST /api/orders - Create order
-- GET /api/orders/{id} - Get order by ID
+## 🔒 Enterprise-Grade Security Implementation
 
-### Categories
-- GET /api/categories - List all categories
-- POST /api/categories - Create category (ADMIN only)
+* Stateless JWT Authorization: Client authentication state is managed using securely generated Bearer tokens passed down via custom HTTP authorization request headers (Authorization: Bearer token).
+* BCrypt Password Hashing: Credentials undergo high-entropy salting and cryptography structures through Spring Security configuration beans before persisting into PostgreSQL.
+* Role-Based Access Control (RBAC): USER role is authorized for safe read operations (GET endpoints), while the `ADMIN` role retains complete administrative write capabilities (POST, PUT, DELETE operations).
+* Data Safety Mechanisms: Built-in validation schema layers (jakarta.validation), automated parameter binding guarding against traditional SQL Injection vectors, and CORS filtration setups.
 
-### Contents
-- GET /api/contents - List all contents
-- POST /api/contents - Create content (ADMIN only)
+---
 
-## Role Structure
+## 📡 Core API Endpoint Reference
 
-- **ADMIN**: Full access to all endpoints (POST, PUT, DELETE)
-- **USER**: Read-only access (GET endpoints)
+### 🔐 Authentication Gateway
+* POST /api/auth/register - Signs up a new customer account.
+* POST /api/auth/login - Processes login credentials and yields an explicit JWT access token payload.
 
-## JWT Usage
+### 🛍️ Product Catalog Exploration & Advanced Filtering
+* GET /api/perfumes - Extracts the full inventory index.
+* GET /api/perfumes/{id} - Isolates a specific product record.
+* GET /api/perfumes/search?query={query} - Dynamic search engine scanning brands, descriptions, and name fields.
+* GET /api/perfumes/gender/{gender} - Filters out targeting products (MALE, FEMALE, UNISEX).
+* GET /api/perfumes/filter?gender={gender}&contentId={contentId} - Multi-criteria specification query extracting products matching both targeted gender and explicit fragrance notes/contents concurrently.
 
-1. Register or login to receive a JWT token
-2. Include the token in the Authorization header:
-   ```
-   Authorization: Bearer <your-jwt-token>
-   ```
+### 📦 Administrative Operations (ADMIN Authority Required)
+* POST /api/perfumes | PUT /api/perfumes/{id} | DELETE /api/perfumes/{id} - Full CRUD operations over catalog items.
+* GET /api/users - Extracts a full registry of user files across the platform database.
+* GET /api/users/{id} - Get user by ID.
+* POST /api/categories | POST /api/contents Mom - Updates baseline filtering taxonomies.
 
-## Default Admin Account
+### 🛒 Checkout Workflow
+* GET /api/orders - Retrieves historical order records.
+* GET /api/orders/{id} - Get order details by ID.
+* POST /api/orders - Dispatches an explicit cart model object, generating structural row binds inside orders, order_items, and payments within atomic database transactions.
 
-- Username: admin
-- Password: admin123
+---
 
-## Database Schema
+## 👥 Default Credentials
 
-- **users**: User accounts with roles
-- **perfumes**: Perfume products with categories and contents
-- **categories**: Product categories
-- **contents**: Fragrance notes/content types
-- **orders**: Customer orders
-- **order_items**: Order line items
-- **payments**: Payment records
+* Default Admin Account:
+   * Username: admin
+   * Password: admin123
 
-## Running Tests
+---
 
-```bash
+## 🧪 Running Tests
+
 ./mvnw test
-```
 
-## Security Features
+---
 
-- JWT-based authentication
-- Password encryption with BCrypt
-- Role-based access control (RBAC)
-- CSRF protection disabled for API endpoints
-- SQL injection prevention via parameterized queries
-- XSS protection through input validation
-
-## License
-
-This project is developed as a university computer science final project.
+## 🎓 Project Origin
+This comprehensive solution is engineered, deployed, and compiled as a University Computer Science Graduation Final Project, validating mastery over modern cloud-ready full-stack software development methodologies.

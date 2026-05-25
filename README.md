@@ -93,10 +93,13 @@ The persistence layer automatically generates, validates, and updates relational
 
 ### 🛍️ Product Catalog Exploration & Advanced Filtering
 * GET /api/perfumes - Extracts the full inventory index.
-* GET /api/perfumes/{id} - Isolates a specific product record.
+* GET /api/perfumes/{id} - Isolates a specific product record by its unique ID.
+* GET /api/perfumes/bestsellers - High-level analytics endpoint that extracts the top 3 best-selling perfumes based on sales metrics.
 * GET /api/perfumes/search?query={query} - Dynamic search engine scanning brands, descriptions, and name fields.
-* GET /api/perfumes/gender/{gender} - Filters out targeting products (MALE, FEMALE, UNISEX).
-* GET /api/perfumes/filter?gender={gender}&contentId={contentId} - Multi-criteria specification query extracting products matching both targeted gender and explicit fragrance notes/contents concurrently.
+* GET /api/perfumes/gender/{gender} - Filters targeted products by gender (e.g., MALE, FEMALE, UNISEX).
+* GET /api/perfumes/category/{categoryId} - Retrieves all perfumes belonging to a specific category ID.
+* GET /api/perfumes/price-less-than?price={price} - Performance query filtering out products with prices strictly less than the specified maximum value.
+* GET /api/perfumes/filter-advanced?gender={gender}&note={note} - Multi-criteria advanced specification query extracting products matching both targeted gender and explicit fragrance notes concurrently.
 
 ### 📦 Administrative Operations (ADMIN Authority Required)
 * POST /api/perfumes | PUT /api/perfumes/{id} | DELETE /api/perfumes/{id} - Full CRUD operations over catalog items.
@@ -109,7 +112,6 @@ The persistence layer automatically generates, validates, and updates relational
 * GET /api/orders/{id} - Get order details by ID.
 * POST /api/orders - Dispatches an explicit cart model object, generating structural row binds inside orders, order_items, and payments within atomic database transactions.
 * GET /api/orders/best-3 - High-level analytics endpoint that scans the system records to extract the top 3 highest-value (most expensive) completed purchases for corporate dashboard monitoring metrics.
-
 ---
 
 ## 👥 Default Credentials

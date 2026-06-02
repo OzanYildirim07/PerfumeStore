@@ -141,12 +141,12 @@ public class DataInitializer implements CommandLineRunner {
                 "Black Opium Eau de Parfum, Yves Saint Laurent'ın baştan çıkarıcı ve büyüleyici kadın kokusudur. Adrenalin zengini kahvenin açılış notaları ve vanilyanın tatlı şehveti, beyaz çiçeklerin yumuşaklığına bırakır.",
                 new BigDecimal("4790.00"), "https://escentual.com/cdn/shop/files/yves_saint_laurent_black_opium_le_parfum_spray_30ml.png?v=1729190675", Perfume.Gender.KADIN, 90, categories.get(1),
                 Arrays.asList(findContent(contents, "Vanilya"), findContent(contents, "Pembe Biber"), findContent(contents, "Sedir Ağacı"))));
-        
+
         perfumes.add(createPerfume("Tom Ford Lost Cherry", "Tom Ford",
                 "Lost Cherry, bir zamanlar yasak olan olgulara tam gövdeli bir yolculuk; dışta oyuncu, şekerleme benzeri bir parıltı ile içte lezzetli, etli bir dokunun baştan çıkarıcı zıtlığını ortaya çıkaran kontrast bir koku.",
-                new BigDecimal("12800.00"), "https://lh4.googleusercontent.com/proxy/kQQQTdPZe7gb77jlT3KNZDqVYXueilgxGXtrBjg8Xis3l6ZRuWUWZe4CNhPtH3QMYARQDLkoatN6hfcDhGFmGLivPcX92oAN6RvMw6-4djN7qV7l7DUl3wzK0DeLdUxOzJ0yy9wEpyN4Lh-ChycfLjow_8Mqim1CjLC3qbCrRjbjNRZO_6P5Fe1fcVSZJg", Perfume.Gender.KADIN, 100, categories.get(2),
+                new BigDecimal("12800.00"), "https://sdcdn.io/tf/tf_sku_T6LN01_2000x2000_0.png", Perfume.Gender.KADIN, 50, categories.get(2),
                 Arrays.asList(findContent(contents, "Tarçın"), findContent(contents, "Vanilya"), findContent(contents, "Sandal Ağacı"))));
-        
+
         perfumes.add(createPerfume("Gucci Bloom", "Gucci",
                 "Gucci'nin çağdaş, çeşitli ve özgün kadınlarının ruhunu yakalayan Bloom, kreatif direktör Alessandro Michele'nin Moda Evi için tasarladığı ilk koku.",
                 new BigDecimal("4400.00"), "https://www.myperfumeshop.com/cdn/shop/products/gucci-gucci-bloom-edp-724855.png?v=1609925260&width=2048", Perfume.Gender.KADIN, 100, categories.get(1),

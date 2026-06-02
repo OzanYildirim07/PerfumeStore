@@ -83,7 +83,29 @@ function toggleCart() {
 // 🌟 PARAMETRE SIRASI: id, name, price, image (Kurşun Geçirmez Sıralama)
 function addToCart(id, name, price, image = '') {
     const productId = Number(id);
-    const productPrice = parseFloat(price);
+    
+    // 🚨 FORMATLI STRING VE SAF SAYI SAVAŞINI ÇÖZEN KALKAN KANKA
+    let productPrice = price;
+    if (typeof price === 'string') {
+        // "₺" sembolünü, boşlukları ve sinsi karakterleri temizle
+        let cleanPrice = price.replace('₺', '').trim();
+        
+        // Eğer fiyatta hem nokta hem virgül varsa (Örn: 7.200,00 -> 7200.00)
+        if (cleanPrice.includes('.') && cleanPrice.includes(',')) {
+            cleanPrice = cleanPrice.replace(/\./g, '').replace(',', '.');
+        } 
+        // Eğer sadece nokta varsa ve son iki haneden önceyse (Örn: 7.200 -> 7200) -> Binlik ayracıdır
+        else if (cleanPrice.includes('.') && cleanPrice.split('.')[1].length === 3) {
+            cleanPrice = cleanPrice.replace(/\./g, '');
+        }
+        
+        productPrice = parseFloat(cleanPrice);
+    } else {
+        productPrice = parseFloat(price);
+    }
+
+    // Parse işlemi olur da NaN dönerse emniyet kemeri (Fiyat 0 kalmasın)
+    if (isNaN(productPrice)) productPrice = 0;
 
     const existingItem = cart.find(item => Number(item.id) === productId);
     
@@ -93,7 +115,7 @@ function addToCart(id, name, price, image = '') {
         cart.push({
             id: productId, 
             name: name,
-            price: productPrice,
+            price: productPrice, // Artık kuruşu kuruşuna taş gibi net sayı tutuyor!
             image: image || getDefaultImage(name),
             quantity: 1
         });
@@ -336,14 +358,14 @@ function showToast(message) {
     }, 3000);
 }
 
-function handleSubscribe(e) {
+/*function handleSubscribe(e) {
     e.preventDefault();
     const input = e.target.querySelector('.newsletter-input');
     if (input && input.value) {
         showToast('Bültenimize başarıyla abone oldunuz!');
         input.value = '';
     }
-}
+}*/
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -595,7 +617,7 @@ function openPaymentModal() {
     // 1. Giriş kontrolü kanka
     const token = localStorage.getItem('token');
     if (!token) {
-        showToast("Alışverişi tamamlamak için lütfen önce giriş yapın kanka!");
+        showToast("Alışverişi Tamamlamak İçin Lütfen Önce Giriş Yapın!");
         if (cartSidebar) cartSidebar.classList.remove('active');
         if (cartOverlay) cartOverlay.classList.remove('active');
         toggleAuthModal();
@@ -604,7 +626,7 @@ function openPaymentModal() {
 
     // 2. Sepet kontrolü
     if (cart.length === 0) {
-        showToast("Kanka sepetin boş, kokuları eklemeden ödemeye geçemezsin! 😂");
+        showToast("Sepetiniz Boş.Lütfen Sepetinize Ürün Ekleyiniz!");
         return;
     }
 
@@ -671,7 +693,7 @@ async function submitOrderWithPayment() {
         }
 
         // Başarılı tost mesajı şovu!
-        showToast(`🎉 Sipariş ve Ödeme Başarılı! (${selectedPaymentMethod})`);
+        showToast(`🎉 Sipariş ve Ödeme Başarılı!`);
         
         // Sepeti tamamen sıfırla kanka
         cart = [];
@@ -692,6 +714,30 @@ async function submitOrderWithPayment() {
 // 🚀 DOM CONTENT LOADED - EVENT LISTENERS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    // 🚨 SİTEYE GİRER GİRMEZ TOKEN SÜRESİ KONTROLÜ (AUTO-LOGOUT) KANKA
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+        try {
+            // JWT token'ın içindeki payload kısmını çözüyoruz
+            const payload = JSON.parse(atob(savedToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000); // Şu anki zamanı saniye cinsinden alıyoruz
+            
+            // Eğer token'ın bitiş süresi (exp) şu anki zamandan küçükse süre dolmuştur kanka
+            if (payload.exp && payload.exp < currentTime) {
+                console.log("Token süresi dolmuş, otomatik çıkış yapılıyor...");
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('userEmail');
+                currentUserToken = null;
+                currentUsername = null;
+                currentUserEmail = '';
+            }
+        } catch (e) {
+            console.error("Token decode edilirken hata oluştu, temizleniyor:", e);
+            localStorage.clear();
+        }
+    }
+
     initScrollReveal();
     initLazyLoad();
     initParallax();
